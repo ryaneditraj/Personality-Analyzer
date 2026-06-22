@@ -12,7 +12,7 @@ def home():
 def result():
 
     name = request.form.get("name")
-    
+
     scores = {
         "Urban Explorer": 0,
         "Adventure Seeker": 0,
@@ -58,39 +58,63 @@ def result():
 
     for personality, score in scores.items():
         percentages[personality] = round(
-            (score / total_score) * 100
+           (score / total_score) * 100
         )
 
     personality = max(scores, key=scores.get)
+
+    sorted_scores = sorted(
+        percentages.items(),
+        key=lambda item: item[1],
+        reverse=True
+    )
+
+    top_score = sorted_scores[0][1]
+    if top_score >= 75:
+        confidence = "Very Strong Match"
+    elif top_score >= 50:
+        confidence = "Strong Match"
+    else:
+        confidence = "Mixed Personality"
 
     personality_info = {
         "Urban Explorer": {
             "badge": "🏙🏙",
             "description": "You enjoy modern cities, shopping, technology and busy urban life.",
-            "places": ["Tokyo", "Singapore", "Seoul"]
+            "places": ["Tokyo", "Singapore", "Seoul"],
+            "trip_length": "7 - 10 Days",
+            "budget": "Medium to High"
         },
         "Adventure Seeker": {
             "badge": "🏔🏙",
             "description": "You enjoy excitement, challenges and outdoor adventures.",
-            "places": ["Nepal", "New Zealand", "Patagonia"]
+            "places": ["Nepal", "New Zealand", "Patagonia"],
+            "trip_length": "10 - 14 Days",
+            "budget": "Medium"
         },
         "Nature Lover": {
-            "badge": "🌲",
-            "description": "You enjoy peaceful environments and beautiful natural landscapes.",
-            "places": ["Switzerland", "Iceland", "Norway"]
+      "badge": "🌲",
+            "description": "You enjoy peaceful environments and beautiful landscapes.",
+            "places": ["Switzerland", "Norway", "Iceland"],
+            "trip_length": "5 - 8 Days",
+            "budget": "Medium to High"
         },
         "Cultural Explorer": {
             "badge": "🌲🏙",
-            "description": "You love history, culture, traditions and heritage sites.",
-            "places": ["Rome", "Kyoto", "Athens"]
+            "description": "You love history, museums and cultural experiences.",
+            "places": ["Rome", "Kyoto", "Athens"],
+            "trip_length": "6 - 9 Days",
+            "budget": "Medium"
         }
     }
 
     return render_template(
         "result.html",
-       name=name,
+        name=name,
         personality=personality,
         percentages=percentages,
+        sorted_scores=sorted_scores,
+        confidence=confidence,
         details=personality_info[personality]
     )
 
