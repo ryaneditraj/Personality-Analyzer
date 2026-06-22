@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>  <title>Travel Personality Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Travel Personality Analyzer</h1>
+
+        <form action="/result" method="POST">
+
+            <div class="question">
+                <h3>1. What kind of vacation sounds best?</h3>
+
+                <label>
+                    <input type="radio" name="q1" value="city" required>
+                  Exploring a modern city
+                </label>
+
+                <label>
+                    <input type="radio" name="q1" value="adventure">
+                    Adventure activities
+                </label>
+
+                <label>
+                    <input type="radio" name="q1" value="nature">
+                    Relaxing in nature
+                </label>
+
+                <label>
+                    <input type="radio" name="q1" value="culture">
+                    Historical places
+                </label>
+           </div>
+
+            <div class="question">
+                <h3>2. Which activity do you enjoy most?</h3>
+
+                <label>
+                    <input type="radio" name="q2" 8value="sh-=opping" required>
+                    Shopping
+              </label>
+
+                <label>
+                   <input type="radio" name="q2" value="sports">
+                    Outdoor sports
+                </label>
+
+                <label>
+                    <input type="radio" name="q2" value="forest">
+                    Forest walks
+                </label>
+
+                <label>
+                   <input type="radio" name="q2" value="museum">
+                    Museums
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>3. Where would you prefer to stay?</h3>
+
+                <label>
+                    <input type="radio" name="q3" value="hotel" required>
+                    City Hotel
+                </label>
+
+             <label>
+                    <input type="radio" name="q3" value="camp">
+                    Campsite
+                </label>
+
+             <label>
+                    <input type="radio" name="q3" value="cabin">
+                    Mountain Cabin
+                </label>
+
+                <label>
+                   <input type="radio" name="q3" value="heritage">
+                    Heritage Hotel
+                </label>
+            </div>
+
+            <div class="question">
+                <h3>4. Pick a dream destination</h3>
+
+                <label>
+                    <input type="radio" name="q4" value="tokyo" required>
+                    Tokyo
+                </label>
+
+                <label>
+                    <input type="radio" name="q4" value="nepal">
+                    Nepal
+                </label>
+
+                <label>
+                    <input type="radio" name="q4" value="switzerland">
+                    Switzerland
+                </label>
+
+                <label>
+                    <input type="radio" name="q4" value="rome">
+                    Rome
+                </label>
+            </div>
+
+            <button type="submit">
+                Analyze My Personality
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Your Travel Personality</h1>
+
+        <div class="result-box">
+            {{ personality }}
+        </div>
+
+        <a href="/">
+            <button>Try Again</button>
+        </a>
+
+    </div>
+  
+</body>
+</html>
