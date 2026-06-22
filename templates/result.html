@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Travel Result</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Result</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <div class="container">
 
-    <h1>Your Travel Personality</h1>
+    <h1>Hello {{ name }} 👋</h1>
 
-    <div class="result-box">
-        {{ personality }}
-    </div>
+ <div class="main-result">
 
-    <div class="info-box">
-        <h2>About You</h2>
+        <h2>{{ details.badge }} {{ personality }}</h2>
+
         <p>{{ details.description }}</p>
+
     </div>
 
-    <div class="info-box">
+    <div class="card">
+
         <h2>Recommended Destinations</h2>
 
         <ul>
@@ -27,28 +28,29 @@
                 <li>{{ place }}</li>
             {% endfor %}
         </ul>
+
     </div>
 
-    <div class="info-box">
-        <h2>Score Breakdown</h2>
+    <div class="card">
 
-        <table>
-            <tr>
-                <th>Personality</th>
-                <th>Score</th>
-         </tr>
+        <h2>Personality Match</h2>
 
-            {% for name, score in scores.items() %}
-            <tr>
-                <td>{{ name }}</td>
-                <td>{{ score }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        {% for personality_name, percent in percentages.items() %}
+
+            <p>{{ personality_name }} - {{ percent }}%</p>
+
+            <div class="bar">
+                <div class="fill"
+                     style="width: {{ percent }}%;">
+                </div>
+            </div>
+
+        {% endfor %}
+
     </div>
 
     <a href="/">
-        <button>Take Quiz Again</button>
+        <button>Try Again</button>
     </a>
 
 </div>

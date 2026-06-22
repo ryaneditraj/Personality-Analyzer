@@ -1,119 +1,97 @@
 <!DOCTYPE html>
 <html>
-<head>  <title>Travel Personality Analyzer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
+    <title>Travel Personality Analyzer</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>Travel Personality Analyzer</h1>
+   <h1>Travel Personality Analyzer</h1>
 
-        <form action="/result" method="POST">
+    <form action="/result" method="POST">
 
-            <div class="question">
-                <h3>1. What kind of vacation sounds best?</h3>
+        <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            required
+            class="name-input"
+        >
 
-                <label>
-                    <input type="radio" name="q1" value="city" required>
-                  Exploring a modern city
-                </label>
+        <div class="question">
+            <h3>1. What vacation sounds best?</h3>
+            <label><input type="radio" name="q1" value="city" required> Big City</label>
+            <label><input type="radio" name="q1" value="adventure"> Adventure Trip</label>
+            <label><input type="radio" name="q1" value="nature"> Nature Escape</label>
+            <label><input type="radio" name="q1" value="culture"> Historical Tour</label>
+        </div>
 
-                <label>
-                    <input type="radio" name="q1" value="adventure">
-                    Adventure activities
-                </label>
+        <div class="question">
+            <h3>2. Favorite activity?</h3>
+            <label><input type="radio" name="q2" value="shopping" required> Shopping</label>
+           <label><input type="radio" name="q2" value="sports"> Outdoor Sports</label>
+            <label><input type="radio" name="q2" value="forest"> Forest Walk</label>
+            <label><input type="radio" name="q2" value="museum"> Museum Visit</label>
+        </div>
 
-                <label>
-                    <input type="radio" name="q1" value="nature">
-                    Relaxing in nature
-                </label>
+        <div class="question">
+            <h3>3. Which interests you most?</h3>
+            <label><input type="radio" name="q3" value="technology" required> Technology</label>
+            <label><input type="radio" name="q3" value="trekking"> Trekking</label>
+            <label><input type="radio" name="q3" value="mountains"> Mountains</label>
+            <label><input type="radio" name="q3" value="history"> History</label>
+        </div>
 
-                <label>
-                    <input type="radio" name="q1" value="culture">
-                    Historical places
-                </label>
-           </div>
+        <div class="question">
+            <h3>4. Weekend choice?</h3>
+            <label><input type="radio" name="q4" value="nightlife" required> City Nightlife</label>
+            <label><input type="radio" name="q4" value="extreme"> Extreme Sports</label>
+            <label><input type="radio" name="q4" value="wildlife"> Wildlife Safari</label>
+            <label><input type="radio" name="q4" value="architecture"> Old Buildings</label>
+        </div>
 
-            <div class="question">
-                <h3>2. Which activity do you enjoy most?</h3>
+       <div class="question">
+            <h3>5. Pick a photo you'd click first</h3>
+            <label><input type="radio" name="q5" value="city" required> Skyscraper</label>
+            <label><input type="radio" name="q5" value="adventure"> Mountain Trail</label>
+            <label><input type="radio" name="q5" value="nature"> Waterfall</label>
+            <label><input type="radio" name="q5" value="culture"> Temple</label>
+        </div>
 
-                <label>
-                    <input type="radio" name="q2" 8value="sh-=opping" required>
-                    Shopping
-              </label>
+        <div class="question">
+            <h3>6. Preferred transport?</h3>
+            <label><input type="radio" name="q6" value="technology" required> High-Speed Train</label>
+            <label><input type="radio" name="q6" value="sports"> Bike Ride</label>
+            <label><input type="radio" name="q6" value="forest"> Hiking Trail</label>
+            <label><input type="radio" name="q6" value="history"> Heritage Tram</label>
+        </div>
 
-                <label>
-                   <input type="radio" name="q2" value="sports">
-                    Outdoor sports
-                </label>
+     <div class="question">
+            <h3>7. What sounds most fun?</h3>
+            <label><input type="radio" name="q7" value="shopping" required> Mall Exploration</label>
+            <label><input type="radio" name="q7" value="trekking"> Mountain Climb</label>
+            <label><input type="radio" name="q7" value="wildlife"> Bird Watching</label>
+            <label><input type="radio" name="q7" value="museum"> Museum Tour</label>
+        </div>
 
-                <label>
-                    <input type="radio" name="q2" value="forest">
-                    Forest walks
-                </label>
+        <div class="question">
+            <h3>8. Pick a destination type</h3>
+            <label><input type="radio" name="q8" value="city" required> Modern Metropolis</label>
+          <label><input type="radio" name="q8" value="adventure"> Adventure Zone</label>
+            <label><input type="radio" name="q8" value="nature"> National Park</label>
+            <label><input type="radio" name="q8" value="culture"> Ancient City</label>
+        </div>
 
-                <label>
-                   <input type="radio" name="q2" value="museum">
-                    Museums
-                </label>
-            </div>
+        <button type="submit">
+            Analyze Personality
+        </button>
 
-            <div class="question">
-                <h3>3. Where would you prefer to stay?</h3>
+    </form>
 
-                <label>
-                    <input type="radio" name="q3" value="hotel" required>
-                    City Hotel
-                </label>
-
-             <label>
-                    <input type="radio" name="q3" value="camp">
-                    Campsite
-                </label>
-
-             <label>
-                    <input type="radio" name="q3" value="cabin">
-                    Mountain Cabin
-                </label>
-
-                <label>
-                   <input type="radio" name="q3" value="heritage">
-                    Heritage Hotel
-                </label>
-            </div>
-
-            <div class="question">
-                <h3>4. Pick a dream destination</h3>
-
-                <label>
-                    <input type="radio" name="q4" value="tokyo" required>
-                    Tokyo
-                </label>
-
-                <label>
-                    <input type="radio" name="q4" value="nepal">
-                    Nepal
-                </label>
-
-                <label>
-                    <input type="radio" name="q4" value="switzerland">
-                    Switzerland
-                </label>
-
-                <label>
-                    <input type="radio" name="q4" value="rome">
-                    Rome
-                </label>
-            </div>
-
-            <button type="submit">
-                Analyze My Personality
-            </button>
-
-        </form>
-
-    </div>
+</div>
 
 </body>
 </html>
