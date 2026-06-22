@@ -63,12 +63,33 @@ def result():
     elif q4 == "rome":
         scores["Cultural Explorer"] += 2
 
-    personality = max(scores, key=scores.get)
+    personality_info = {
+        "Urban Explorer": {
+            "description": "You enjoy modern cities, technology, shopping and busy environments.",
+            "places": ["Tokyo", "Seoul", "Singapore"]
+        },
+        "Adventure Seeker": {
+            "description": "You love excitement, outdoor activities and challenging experiences.",
+            "places": ["Nepal", "New Zealand", "Cape Town"]
+        },
+        "Nature Lover": {
+            "description": "You enjoy peaceful landscapes, mountains and natural beauty.",
+            "places": ["Switzerland", "Iceland", "Norway"]
+        },
+      "Cultural Explorer": {
+            "description": "You enjoy history, museums and learning about different cultures.",
+            "places": ["Rome", "Kyoto", "Athens"]
+      }
+    }
 
     return render_template(
         "result.html",
-        personality=personality
- )
+        personality=personality,
+        scores=scores,
+        details=personality_info[personality]
+    )
+
+
 
 
 if __name__ == "__main__":

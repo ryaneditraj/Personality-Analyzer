@@ -1,24 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Result</title>
+    <title>Travel Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>Your Travel Personality</h1>
+    <h1>Your Travel Personality</h1>
 
-        <div class="result-box">
-            {{ personality }}
-        </div>
-
-        <a href="/">
-            <button>Try Again</button>
-        </a>
-
+    <div class="result-box">
+        {{ personality }}
     </div>
-  
+
+    <div class="info-box">
+        <h2>About You</h2>
+        <p>{{ details.description }}</p>
+    </div>
+
+    <div class="info-box">
+        <h2>Recommended Destinations</h2>
+
+        <ul>
+            {% for place in details.places %}
+                <li>{{ place }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h2>Score Breakdown</h2>
+
+        <table>
+            <tr>
+                <th>Personality</th>
+                <th>Score</th>
+         </tr>
+
+            {% for name, score in scores.items() %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ score }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <a href="/">
+        <button>Take Quiz Again</button>
+    </a>
+
+</div>
+
 </body>
 </html>
