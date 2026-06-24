@@ -15,9 +15,9 @@ function updateProgress() {
 }
 
 function showStep(index) {
-    steps.forEach(function (step) {
+   steps.forEach(function (step) {
         step.classList.remove("active");
-    });
+   });
     steps[index].classList.add("active");
 
     if (index === 0) {
@@ -81,7 +81,7 @@ allOptionCards.forEach(function (card) {
         const radioName = card.querySelector("input").name;
         const sameNameInputs = document.querySelectorAll('input[name="' + radioName + '"]');
         sameNameInputs.forEach(function (input) {
-            input.closest(".option-card").classList.remove("selected");
+          input.closest(".option-card").classList.remove("selected");
         });
         card.classList.add("selected");
     });
