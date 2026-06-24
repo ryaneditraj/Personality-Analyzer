@@ -23,3 +23,15 @@ There are travel tips and fun facts.
 Share in whatsapp + save as txt option in the end of results page.
 
 At this point i ran out of ideas and im thinking to do further.
+
+To DO:
+
+I'm gonna add a itenary generator.
+
+Currency conversion mechanism.
+
+Do Email sharing of results (Im just gonna use the mailto: option)
+
+Possibly i might do side by side comparison thing.
+
+Im gonna find whats the best time to book as per the personality/
