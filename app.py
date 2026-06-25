@@ -17,7 +17,7 @@ answer_map = {
     "sports": "Adventure Seeker",
     "trekking": "Adventure Seeker",
     "extreme": "Adventure Seeker",
-    "camping": "Adventure Seeker",
+  "camping": "Adventure Seeker",
     "spontaneous": "Adventure Seeker",
     "highrisk": "Adventure Seeker",
     "backpack": "Adventure Seeker",
@@ -43,7 +43,7 @@ answer_map = {
 
 personality_info = {
     "Urban Explorer": {
-        "description": "You enjoy modern cities, shopping, technology and busy urban life.",
+     "description": "You enjoy modern cities, shopping, technology and busy urban life.",
         "strengths": [
             "Good at navigating new cities quickly",
             "Comfortable with public transport and metro systems",
@@ -64,21 +64,21 @@ personality_info = {
         "daily_cost_mid": 8000,
         "daily_cost_high": 16000,
         "places": [
-            {
+         {
                 "name": "Tokyo, Japan",
                 "description": "A high tech city with neon streets, bullet trains and endless things to do.",
-                "budget": "Medium to High",
+               "budget": "Medium to High",
                 "season": "Spring",
                 "trip_length": "7 - 9 Days",
                 "why": "You enjoy modern cities and technology."
-            },
+         },
             {
                 "name": "Singapore",
                 "description": "A clean, futuristic city state known for its skyline and food culture.",
                 "budget": "Medium to High",
                 "season": "Year Round",
                 "trip_length": "5 - 7 Days",
-                "why": "You like organised cities with great transport and shopping."
+              "why": "You like organised cities with great transport and shopping."
             },
             {
                 "name": "Seoul, South Korea",
@@ -89,7 +89,7 @@ personality_info = {
                 "why": "You enjoy busy streets, shopping districts and city nightlife."
             },
             {
-                "name": "Dubai, UAE",
+             "name": "Dubai, UAE",
                 "description": "Tall buildings, malls and a city built around modern luxury.",
                 "budget": "High",
                 "season": "Winter",
@@ -105,11 +105,11 @@ personality_info = {
             "Try street food instead of only restaurants",
             "Keep a loose plan so you can explore on foot"
         ],
-        "fun_facts": [
-            "Urban Explorers often prefer destinations with extensive public transportation systems.",
+      "fun_facts": [
+           "Urban Explorers often prefer destinations with extensive public transportation systems.",
             "Most Urban Explorers say walking is their favorite way to discover a new city.",
             "Cities with strong nightlife usually score high with Urban Explorer travellers."
-        ],
+      ],
         "packing": [
             "Comfortable walking shoes",
             "Portable phone charger / power bank",
@@ -145,7 +145,7 @@ personality_info = {
         "places": [
             {
                 "name": "Nepal",
-                "description": "Home to the Himalayas and some of the best trekking routes on earth.",
+              "description": "Home to the Himalayas and some of the best trekking routes on earth.",
                 "budget": "Medium",
                 "season": "Autumn",
                 "trip_length": "10 - 14 Days",
@@ -191,7 +191,7 @@ personality_info = {
         ],
         "packing": [
             "Sturdy hiking shoes",
-            "Quick dry clothing",
+         "Quick dry clothing",
             "Rain jacket",
             "Small first aid kit",
             "Headlamp or flashlight",
@@ -203,7 +203,7 @@ personality_info = {
     "Nature Lover": {
         "description": "You enjoy peaceful environments and beautiful landscapes.",
         "strengths": [
-            "Great at slowing down and enjoying the moment",
+         "Great at slowing down and enjoying the moment",
             "Comfortable travelling solo or in small groups",
             "Appreciates simple, low cost experiences",
             "Notices small details in nature others miss"
@@ -231,7 +231,7 @@ personality_info = {
                 "why": "You enjoy peaceful landscapes and mountain views."
             },
             {
-                "name": "Norway",
+               "name": "Norway",
                 "description": "Fjords, forests and small towns far from crowded cities.",
                 "budget": "Medium to High",
                 "season": "Summer",
@@ -265,7 +265,7 @@ personality_info = {
         ],
         "fun_facts": [
             "Nature Lovers often prefer destinations with low population density.",
-            "Most Nature Lovers say a quiet evening view matters more than nightlife.",
+          "Most Nature Lovers say a quiet evening view matters more than nightlife.",
             "Countryside trips score higher for this personality than big city trips."
         ],
         "packing": [
@@ -276,7 +276,7 @@ personality_info = {
             "Camera or binoculars",
             "Reusable water bottle",
             "Small backpack",
-            "Power bank, charging points may be limited"
+      "Power bank, charging points may be limited"
         ]
     },
     "Cultural Explorer": {
@@ -306,11 +306,11 @@ personality_info = {
                 "description": "Ancient ruins, classic architecture and centuries of history.",
                 "budget": "Medium",
                 "season": "Spring",
-                "trip_length": "6 - 8 Days",
+          "trip_length": "6 - 8 Days",
                 "why": "You enjoy history and architecture from past centuries."
             },
             {
-                "name": "Kyoto, Japan",
+               "name": "Kyoto, Japan",
                 "description": "Traditional temples, gardens and a slower paced culture.",
                 "budget": "Medium",
                 "season": "Spring",
@@ -321,9 +321,9 @@ personality_info = {
                 "name": "Athens, Greece",
                 "description": "The birthplace of ancient history with museums on every corner.",
                 "budget": "Medium",
-                "season": "Spring",
-                "trip_length": "5 - 7 Days",
-                "why": "You enjoy ancient history and cultural landmarks."
+              "season": "Spring",
+             "trip_length": "5 - 7 Days",
+             "why": "You enjoy ancient history and cultural landmarks."
             },
             {
                 "name": "Jaipur, India",
@@ -345,14 +345,14 @@ personality_info = {
         "fun_facts": [
             "Cultural Explorers usually rate museums as a top travel activity.",
             "Most Cultural Explorers prefer mid range budgets with planned itineraries.",
-            "Historic cities consistently score highest for this personality type."
+      "Historic cities consistently score highest for this personality type."
         ],
         "packing": [
             "Comfortable walking shoes",
-            "Modest clothing for religious or heritage sites",
+           "Modest clothing for religious or heritage sites",
             "Small notebook or travel journal",
             "Camera",
-            "Portable charger",
+         "Portable charger",
             "Day bag for museum visits",
             "Printed or downloaded museum tickets",
             "Light scarf or shawl"
@@ -361,6 +361,101 @@ personality_info = {
 }
 
 total_questions = 15
+
+itinerary_templates = {
+    "Urban Explorer": {
+        "morning": [
+            "Grab breakfast at a local cafe in {place}",
+            "Walk through the main shopping district of {place}",
+            "Visit a popular landmark in {place}",
+            "Take the metro to explore a new neighborhood in {place}"
+        ],
+        "afternoon": [
+            "Explore the downtown area of {place}",
+            "Visit a shopping mall or market in {place}",
+            "Try a famous local restaurant in {place}",
+            "Check out a tech district or modern building in {place}"
+        ],
+        "evening": [
+            "Watch the city skyline of {place} light up",
+            "Explore the nightlife area of {place}",
+            "Walk around a busy street market in {place}",
+            "Relax at a rooftop cafe in {place}"
+        ]
+    },
+    "Adventure Seeker": {
+        "morning": [
+            "Start an early trek near {place}",
+            "Go for an outdoor sport activity in {place}",
+            "Hike one of the trails around {place}",
+            "Join a local adventure tour in {place}"
+        ],
+        "afternoon": [
+            "Try a high energy activity like rafting or climbing in {place}",
+            "Explore the wilderness areas around {place}",
+            "Take a scenic adventure route through {place}",
+           "Rest and refuel after a morning activity in {place}"
+        ],
+        "evening": [
+            "Relax at the campsite or stay near {place}",
+            "Watch the sunset from a high point near {place}",
+            "Share stories around a fire near {place}",
+            "Plan the next day's adventure in {place}"
+        ]
+    },
+    "Nature Lover": {
+        "morning": [
+            "Take a quiet walk through nature near {place}",
+            "Watch birds or wildlife around {place}",
+            "Visit a calm lake or forest area in {place}",
+            "Enjoy a slow breakfast with a view in {place}"
+        ],
+        "afternoon": [
+            "Explore the countryside surrounding {place}",
+            "Visit a nature park or garden in {place}",
+            "Take photos of the landscape around {place}",
+            "Relax by a river or viewpoint in {place}"
+        ],
+        "evening": [
+            "Watch the sunset over {place}",
+            "Enjoy a quiet dinner with a view in {place}",
+            "Take a peaceful evening walk in {place}",
+            "Stargaze if the sky is clear near {place}"
+        ]
+    },
+    "Cultural Explorer": {
+        "morning": [
+            "Visit a museum or heritage site in {place}",
+            "Explore an old town area in {place}",
+            "Join a guided history tour in {place}",
+            "Visit a temple or historic landmark in {place}"
+        ],
+        "afternoon": [
+            "Try traditional local food in {place}",
+            "Walk through historic streets of {place}",
+            "Visit an art gallery or cultural center in {place}",
+            "Learn about local traditions in {place}"
+        ],
+        "evening": [
+            "Watch a cultural show or performance in {place}",
+            "Explore a local market in {place}",
+            "Have dinner at a traditional restaurant in {place}",
+            "Walk around a historic square in {place}"
+        ]
+    }
+}
+
+currency_rates = {
+    "USD": 0.012,
+    "EUR": 0.011
+}
+
+best_time_to_book = {
+    "Urban Explorer": "City trips are usually cheapest 2 to 3 months before travel, outside major holidays.",
+    "Adventure Seeker": "Adventure destinations are cheaper just before or after peak trekking season.",
+    "Nature Lover": "Nature destinations are best booked a little before peak season for lower prices and fewer crowds.",
+    "Cultural Explorer": "Historic cities are usually cheaper in shoulder season, just before or after spring and autumn."
+}
 
 
 def calculate_results(form_data):
@@ -393,7 +488,7 @@ def calculate_results(form_data):
 
     percentages = {}
     for personality in scores:
-        percentages[personality] = round((scores[personality] / total_score) * 100)
+     percentages[personality] = round((scores[personality] / total_score) * 100)
 
     sorted_scores = sorted(percentages.items(), key=lambda item: item[1], reverse=True)
 
@@ -413,7 +508,7 @@ def calculate_results(form_data):
     gap = top_score - second_score
     match_score = top_score + round(gap / 2)
     if match_score > 100:
-        match_score = 100
+       match_score = 100
 
     result = {}
     result["scores"] = scores
@@ -444,6 +539,31 @@ def build_booking_link(place_name):
 def build_whatsapp_link(text):
     message = text.replace(" ", "%20").replace("\n", "%0A")
     return "https://wa.me/?text=" + message
+
+
+def build_mailto_link(subject, body):
+    subject_part = subject.replace(" ", "%20")
+    body_part = body.replace(" ", "%20").replace("\n", "%0A")
+    return "mailto:?subject=" + subject_part + "&body=" + body_part
+
+
+def build_itinerary(personality, place_name, days):
+    template = itinerary_templates[personality]
+    days_plan = []
+
+    for day_number in range(1, days + 1):
+        morning_index = (day_number - 1) % len(template["morning"])
+        afternoon_index = (day_number - 1) % len(template["afternoon"])
+        evening_index = (day_number - 1) % len(template["evening"])
+
+        day_plan = {}
+        day_plan["day_number"] = day_number
+        day_plan["morning"] = template["morning"][morning_index].format(place=place_name)
+        day_plan["afternoon"] = template["afternoon"][afternoon_index].format(place=place_name)
+        day_plan["evening"] = template["evening"][evening_index].format(place=place_name)
+        days_plan.append(day_plan)
+
+    return days_plan
 
 
 @app.route("/")
@@ -482,6 +602,12 @@ def result():
     share_text = name + " got " + primary + " as their travel personality on Travel Personality Analyzer! Take the quiz and find your travel style."
     whatsapp_link = build_whatsapp_link(share_text)
 
+    email_subject = "My Travel Personality Result"
+    email_body = name + " just found out their travel personality is " + primary + " with a secondary style of " + secondary + ". Travel Profile Strength: " + str(results["match_score"]) + "/100."
+    mailto_link = build_mailto_link(email_subject, email_body)
+
+    booking_tip = best_time_to_book[primary]
+
     return render_template(
         "result.html",
         name=name,
@@ -496,8 +622,47 @@ def result():
         chart_labels=chart_labels,
         chart_values=chart_values,
         places=places_with_links,
-        whatsapp_link=whatsapp_link
+        whatsapp_link=whatsapp_link,
+        mailto_link=mailto_link,
+        booking_tip=booking_tip,
+        usd_rate=currency_rates["USD"],
+        eur_rate=currency_rates["EUR"]
     )
+
+
+@app.route("/build-itinerary", methods=["POST"])
+def build_itinerary_route():
+    personality = request.form.get("personality")
+    place_name = request.form.get("place_name")  
+    days = request.form.get("days")
+
+    if not days:
+        days = 5
+    days = int(days)
+    if days > 30:
+        days = 30
+    if days < 1:
+        days = 1
+
+    days_plan = build_itinerary(personality, place_name, days)
+
+    html_parts = []
+    html_parts.append("<h3>" + days_to_text(len(days_plan)) + " Itinerary For " + place_name + "</h3>")
+    for day in days_plan:
+        html_parts.append("<div class='itinerary-day'>")
+        html_parts.append("<h4>Day " + str(day["day_number"]) + "</h4>")
+        html_parts.append("<p><strong>Morning:</strong> " + day["morning"] + "</p>")
+        html_parts.append("<p><strong>Afternoon:</strong> " + day["afternoon"] + "</p>")
+        html_parts.append("<p><strong>Evening:</strong> " + day["evening"] + "</p>")
+        html_parts.append("</div>")
+
+    return "".join(html_parts)
+
+
+def days_to_text(days):
+    return str(days) + " Day"
+
+
 
 
 if __name__ == "__main__":

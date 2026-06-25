@@ -148,7 +148,7 @@ a {
 .feature-card {
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
+    border-radius: 10x;
     padding: 20px;
 }
 
@@ -159,7 +159,7 @@ a {
 }
 
 .feature-card p {
-    font-size: 0.9rem;
+    font-size: 0.9rm;
     color: #555;
     margin: 0;
 }
@@ -196,7 +196,7 @@ a {
 
 .benefits-list {
     max-width: 600px;
-    margin: 0 auto;
+ margin: 0 auto;
     list-style: none;
     padding: 0;
 }
@@ -267,16 +267,14 @@ a {
 
 .option-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);  gap: 12px;
 }
 
-.option-card {
-    display: flex;
+.option-card    display: flex;
     align-items: center;
     background: #f8f9fb;
     border: 2px solid #e2e8f0;
-    border-radius: 8px;
+ border-radius: 8px;
     padding: 14px 16px;
     cursor: pointer;
 }
@@ -398,7 +396,7 @@ a {
 }
 
 .section-card h2 {
-    font-size: 1.3rem;
+ font-size: 1.3rem;
     margin-bottom: 15px;
     color: #4f46e5;
 }
@@ -410,12 +408,12 @@ a {
 
 .match-score-number {
     font-size: 2rem;
-    font-weight: bold;
+ font-weight: bold;
     color: #4f46e5;
 }
 
 .big-bar {
-    height: 20px;
+  height: 20px;
     margin-bottom: 14px;
 }
 
@@ -451,7 +449,7 @@ a {
 
 .insight-box h4 {
     font-size: 0.75rem;
-    text-transform: uppercase;
+    text-transform: uppercae;
     color: #06b6d4;
     margin-bottom: 6px;
 }
@@ -508,7 +506,7 @@ a {
 .destination-card h3 {
     color: #4f46e5;
     font-size: 1.1rem;
-    margin-bottom: 8px;
+ margin-bottom: 8px;
 }
 
 .dest-desc {
@@ -522,7 +520,7 @@ a {
     flex-direction: column;
     gap: 4px;
     font-size: 0.85rem;
-    margin-bottom: 12px;
+  margin-bottom: 12px;
     padding-bottom: 12px;
     border-bottom: 1px solid #e2e8f0;
 }
@@ -591,6 +589,51 @@ a {
 .calc-note {
     font-size: 0.85rem;
     color: #777;
+}
+
+.itinerary-result {
+    margin-top: 15px;
+}
+
+.itinerary-day {
+    background: #f8f9fb;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+}
+
+.itinerary-day h4 {
+    color: #4f46e5;
+    margin-bottom: 8px;
+}
+
+.itinerary-day p {
+    margin: 0 0 6px;
+    font-size: 0.9rem;
+}
+
+.compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.compare-box {
+    background: #f8f9fb;
+ border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 18px;
+}
+
+.compare-box h4 {
+    color: #4f46e5;
+    margin-bottom: 10px;
+}
+
+.compare-box p {
+    font-size: 0.9rem;
+    margin: 0 0 8px;
 }
 
 .packing-list {
@@ -703,7 +746,7 @@ td {
 
 @media (max-width: 900px) {
     .feature-grid {
-        grid-template-columns: repeat(2, 1fr);
+       grid-template-columns: repeat(2, 1fr);
     }
 
     .steps-row {
@@ -724,7 +767,7 @@ td {
     }
 
     .strengths-weaknesses {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
     }
 
     .destination-grid {
@@ -742,6 +785,10 @@ td {
     .packing-list {
         grid-template-columns: 1fr;
     }
+
+    .compare-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 600px) {
@@ -749,8 +796,7 @@ td {
         font-size: 1.8rem;
     }
 
-    .feature-grid {
-        grid-template-columns: 1fr;
+    .feature-grid {   grid-template-columns: 1fr;
     }
 
     .dashboard-grid {

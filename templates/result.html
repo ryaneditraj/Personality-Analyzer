@@ -83,8 +83,8 @@
         <h2>Your Travel Insights</h2>
         <div class="insights-grid">
             <div class="insight-box">
-                <h4>Preferred Trip Type</h4>
-                <p>{{ primary_info.trip_type }}</p>
+              <h4>Preferred Trip Type</h4>
+              <p>{{ primary_info.trip_type }}</p>
             </div>
             <div class="insight-box">
                 <h4>Preferred Environment</h4>
@@ -104,26 +104,47 @@
             </div>
             <div class="insight-box">
                 <h4>Secondary Style</h4>
-                <p>{{ secondary }}</p>
+          <p>{{ secondary }}</p>
             </div>
         </div>
 
         <div class="strengths-weaknesses">
             <div class="sw-box">
-                <h4>Travel Strengths</h4>
+             <h4>Travel Strengths</h4>
                 <ul>
                     {% for strength in primary_info.strengths %}
                         <li>{{ strength }}</li>
                     {% endfor %}
                 </ul>
             </div>
-            <div class="sw-box">
+         <div class="sw-box">
                 <h4>Travel Weaknesses</h4>
                 <ul>
-                    {% for weakness in primary_info.weaknesses %}
+                  {% for weakness in primary_info.weaknesses %}
                         <li>{{ weakness }}</li>
                     {% endfor %}
                 </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2>{{ primary }} vs {{ secondary }}</h2>
+        <p class="match-explain">Here is how your top two travel personalities compare.</p>
+        <div class="compare-grid">
+            <div class="compare-box">
+                <h4>{{ primary }} ({{ percentages[primary] }}%)</h4>
+                <p>{{ primary_info.description }}</p>
+                <p><strong>Trip Type:</strong> {{ primary_info.trip_type }}</p>
+                <p><strong>Environment:</strong> {{ primary_info.environment }}</p>
+                <p><strong>Budget:</strong> {{ primary_info.budget }}</p>
+           </div>
+            <div class="compare-box">
+                <h4>{{ secondary }} ({{ percentages[secondary] }}%)</h4>
+              <p>{{ secondary_info.description }}</p>
+                <p><strong>Trip Type:</strong> {{ secondary_info.trip_type }}</p>
+                <p><strong>Environment:</strong> {{ secondary_info.environment }}</p>
+                <p><strong>Budget:</strong> {{ secondary_info.budget }}</p>
             </div>
         </div>
     </div>
@@ -153,6 +174,32 @@
     </div>
 
     <div class="section-card">
+       <h2>Best Time To Book</h2>
+     <p class="match-explain">{{ booking_tip }}</p>
+    </div>
+
+    <div class="section-card">
+        <h2>Build A Day By Day Itinerary</h2>
+        <p class="match-explain">Pick one of your matching destinations and we will build a simple day by day plan for you.</p>
+        <div class="calc-grid">
+            <div class="calc-field">
+                <label>Destination</label>
+                <select id="itineraryPlace">
+                    {% for place in places %}
+                     <option value="{{ place.name }}">{{ place.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="calc-field">
+                <label>Trip Length (days)</label>
+             <input type="number" id="itineraryDays" value="5" min="1" max="30">
+            </div>
+        </div>
+        <button type="button" class="btn-primary" id="itineraryButton">Generate Itinerary</button>
+        <div class="itinerary-result" id="itineraryResult"></div>
+    </div>
+
+    <div class="section-card">
         <h2>Budget Calculator</h2>
         <p class="match-explain">Get a rough cost estimate for your trip based on your travel personality.</p>
         <div class="calc-grid">
@@ -161,7 +208,7 @@
                 <input type="number" id="calcDays" value="7" min="1" max="60">
             </div>
             <div class="calc-field">
-                <label>Number of People</label>
+             <label>Number of People</label>
                 <input type="number" id="calcPeople" value="1" min="1" max="20">
             </div>
             <div class="calc-field">
@@ -169,7 +216,15 @@
                 <select id="calcStyle">
                     <option value="low">Budget</option>
                     <option value="mid" selected>Mid Range</option>
-                    <option value="high">Luxury</option>
+                   <option value="high">Luxury</option>
+                </select>
+            </div>
+            <div class="calc-field">
+                <label>Show Cost In</label>
+                <select id="calcCurrency">
+                    <option value="INR" selected>Rupees (INR)</option>
+                    <option value="USD">US Dollar (USD)</option>
+                    <option value="EUR">Euro (EUR)</option>
                 </select>
             </div>
         </div>
@@ -196,7 +251,7 @@
         {% for personality_name, percent in sorted_scores %}
             <div class="row">
                 <span>{{ personality_name }}</span>
-                <span>{{ percent }}%</span>
+             <span>{{ percent }}%</span>
             </div>
             <div class="bar">
                 <div class="fill" style="width: {{ percent }}%;"></div>
@@ -226,7 +281,7 @@
         <h2>Travel Tips For {{ primary }}</h2>
         <div class="tips-grid">
             {% for tip in primary_info.tips %}
-                <div class="tip-card">{{ tip }}</div>
+            <div class="tip-card">{{ tip }}</div>
             {% endfor %}
         </div>
     </div>
@@ -244,7 +299,8 @@
         <h2>Share Or Save Your Results</h2>
         <div class="share-buttons">
             <a href="{{ whatsapp_link }}" target="_blank" class="btn-secondary">Share On WhatsApp</a>
-            <button type="button" class="btn-secondary" id="downloadButton">Download Results (.txt)</button>
+            <a href="{{ mailto_link }}" class="btn-secondary">Email My Results</a>
+         <button type="button" class="btn-secondary" id="downloadButton">Download Results (.txt)</button>
         </div>
     </div>
 
@@ -258,16 +314,19 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-    const chartLabels = {{ chart_labels | tojson }};
-    const chartValues = {{ chart_values | tojson }};
-    const dailyCostLow = {{ primary_info.daily_cost_low }};
+    const chartLabels = {{ chart_labels > tojson }};
+ const chartValues = {{ chart_values > tojson }};
+   const dailyCostLow = {{ primary_info.daily_cost_low }};
     const dailyCostMid = {{ primary_info.daily_cost_mid }};
     const dailyCostHigh = {{ primary_info.daily_cost_high }};
-    const travellerName = {{ name | tojson }};
-    const primaryPersonality = {{ primary | tojson }};
-    const secondaryPersonality = {{ secondary | tojson }};
+    const travellerName = {{ name > tojson }};
+    const primaryPersonality = {{ primary > tojson }};
+    const secondaryPersonality = {{ secondary > tojson }};
     const matchScore = {{ match_score }};
-    const confidenceLabel = {{ confidence_label | tojson }};
+    const confidenceLabel = {{ confidence_label > tojson }};
+    const usdRate = {{ usd_rate }};
+    const eurRate = {{ eur_rate }};
+    const primaryPersonalityName = {{ primary > tojson }};
 </script>
 <script src="{{ url_for('static', filename='results.js') }}"></script>
 

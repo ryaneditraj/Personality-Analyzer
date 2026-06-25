@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Personality Analyzer</title>
+    <title>Your Travel Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -11,286 +12,324 @@
 <nav class="navbar">
     <div class="nav-inner">
         <span class="logo">Travel<span class="logo-accent">IQ</span></span>
-        <a href="#quiz" class="nav-cta">Take The Quiz</a>
+        <a href="/" class="nav-cta">Retake Quiz</a>
     </div>
 </nav>
 
-<header class="hero">
-    <div class="hero-inner">
-        <p class="eyebrow">Travel Personality Analyzer</p>
-        <h1>Find out what kind of <span class="highlight">traveller</span> you really are</h1>
-        <p class="hero-sub">
-            Answer a few quick questions about how you like to travel and get a full
-            breakdown of your travel personality, matching destinations, a budget estimate,
-            a packing checklist and links to plan your trip.
+<div class="results-page">
+
+    <div class="result-hero">
+        <p class="eyebrow">Hello {{ name }}, here is your travel profile</p>
+        <h1>{{ primary }}</h1>
+        <p class="hero-sub">{{ primary_info.description }}</p>
+        <div class="secondary-tag">
+            Secondary Personality: <strong>{{ secondary }}</strong>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dash-card">
+            <h3>Travel Style</h3>
+            <p>{{ primary }}</p>
+        </div>
+        <div class="dash-card">
+            <h3>Confidence</h3>
+            <p>{{ confidence_label }}</p>
+        </div>
+        <div class="dash-card">
+            <h3>Trip Length</h3>
+            <p>{{ primary_info.trip_length }}</p>
+        </div>
+        <div class="dash-card">
+            <h3>Budget</h3>
+            <p>{{ primary_info.budget }}</p>
+        </div>
+        <div class="dash-card">
+            <h3>Best Season</h3>
+            <p>{{ primary_info.season }}</p>
+        </div>
+        <div class="dash-card">
+           <h3>Environment</h3>
+            <p>{{ primary_info.environment }}</p>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2>Travel Profile Strength</h2>
+        <div class="match-score-row">
+            <span class="match-score-number">{{ match_score }}/100</span>
+        </div>
+        <div class="bar big-bar">
+            <div class="fill" style="width: {{ match_score }}%;"></div>
+        </div>
+        <p class="match-explain">
+            This score shows how clearly your answers point to one travel personality.
+            A higher score means your travel preferences are more focused, a lower score
+            means you enjoy a mix of different travel styles.
         </p>
-        <a href="#quiz" class="btn-primary">Start The Quiz</a>
     </div>
-</header>
 
-<section class="features">
-    <div class="section-inner">
-        <h2>What You Get</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>Personality Breakdown</h3>
-                <p>See your primary and secondary travel personality with a full percentage match for all four types.</p>
+    <div class="charts-grid">
+        <div class="section-card">
+            <h2>Personality Breakdown</h2>
+            <canvas id="radarChart"></canvas>
+        </div>
+      <div class="section-card">
+            <h2>Personality Comparison</h2>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2>Your Travel Insights</h2>
+        <div class="insights-grid">
+            <div class="insight-box">
+                <h4>Preferred Trip Type</h4>
+                <p>{{ primary_info.trip_type }}</p>
             </div>
-            <div class="feature-card">
-                <h3>Destination Matches</h3>
-                <p>Get real destinations that match your personality, with budget, best season and trip length.</p>
+            <div class="insight-box">
+             <h4>Preferred Environment</h4>
+                <p>{{ primary_info.environment }}</p>
             </div>
-            <div class="feature-card">
-                <h3>Budget Calculator</h3>
-                <p>Estimate how much your trip will cost based on trip length, travel style and number of people.</p>
+            <div class="insight-box">
+                <h4>Ideal Trip Length</h4>
+                <p>{{ primary_info.trip_length }}</p>
             </div>
-            <div class="feature-card">
-                <h3>Packing Checklist</h3>
-                <p>Get a checklist of what to pack based on your travel personality.</p>
+            <div class="insight-box">
+                <h4>Ideal Season</h4>
+                <p>{{ primary_info.season }}</p>
             </div>
-            <div class="feature-card">
-                <h3>Trip Planning Links</h3>
-                <p>Jump straight to Google Maps, flight search, hotel search or add your trip to Google Calendar.</p>
+            <div class="insight-box">
+                <h4>Ideal Budget Range</h4>
+                <p>{{ primary_info.budget }}</p>
             </div>
-            <div class="feature-card">
-                <h3>Download Your Results</h3>
-                <p>Save your full travel profile as a text file to keep or share.</p>
+            <div class="insight-box">
+                <h4>Secondary Style</h4>
+                <p>{{ secondary }}</p>
+            </div>
+        </div>
+
+        <div class="strengths-weaknesses">
+            <div class="sw-box">
+                <h4>Travel Strengths</h4>
+                <ul>
+                    {% for strength in primary_info.strengths %}
+                        <li>{{ strength }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="sw-box">
+                <h4>Travel Weaknesses</h4>
+                <ul>
+                    {% for weakness in primary_info.weaknesses %}
+                        <li>{{ weakness }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
-</section>
 
-<section class="how-it-works">
-    <div class="section-inner">
-        <h2>How It Works</h2>
-        <div class="steps-row">
-            <div class="step-info">
-                <div class="step-number">1</div>
-                <h3>Answer Questions</h3>
-                <p>Go through short questions about how you prefer to travel.</p>
+    <div class="section-card">
+        <h2>{{ primary }} vs {{ secondary }}</h2>
+        <p class="match-explain">Here is how your top two travel personalities compare.</p>
+        <div class="compare-grid">
+            <div class="compare-box">
+                <h4>{{ primary }} ({{ percentages[primary] }}%)</h4>
+                <p>{{ primary_info.description }}</p>
+                <p><strong>Trip Type:</strong> {{ primary_info.trip_type }}</p>
+                <p><strong>Environment:</strong> {{ primary_info.environment }}</p>
+                <p><strong>Budget:</strong> {{ primary_info.budget }}</p>
             </div>
-            <div class="step-info">
-                <div class="step-number">2</div>
-                <h3>We Calculate Your Profile</h3>
-                <p>Your answers are scored across four travel personality types.</p>
-            </div>
-            <div class="step-info">
-                <div class="step-number">3</div>
-                <h3>Get Your Full Travel Plan</h3>
-                <p>See your personality, destinations, budget, packing list and planning links.</p>
+            <div class="compare-box">
+                <h4>{{ secondary }} ({{ percentages[secondary] }}%)</h4>
+                <p>{{ secondary_info.description }}</p>
+                <p><strong>Trip Type:</strong> {{ secondary_info.trip_type }}</p>
+                <p><strong>Environment:</strong> {{ secondary_info.environment }}</p>
+                <p><strong>Budget:</strong> {{ secondary_info.budget }}</p>
             </div>
         </div>
     </div>
-</section>
 
-<section class="benefits">
-    <div class="section-inner">
-        <h2>Why Use This</h2>
-        <ul class="benefits-list">
-            <li>Plan trips that actually match how you like to travel</li>
-            <li>Get a rough cost estimate before you start booking anything</li>
-            <li>Get a packing list so you don't forget anything important</li>
-            <li>Jump straight into maps, flights, hotels and your calendar</li>
+    <div class="section-card">
+        <h2>Recommended Destinations</h2>
+        <div class="destination-grid">
+            {% for place in places %}
+                <div class="destination-card">
+                    <h3>{{ place.name }}</h3>
+                    <p class="dest-desc">{{ place.description }}</p>
+                    <div class="dest-info">
+                        <span><strong>Budget:</strong> {{ place.budget }}</span>
+                        <span><strong>Best Season:</strong> {{ place.season }}</span>
+                        <span><strong>Trip Length:</strong> {{ place.trip_length }}</span>
+                    </div>
+                    <p class="dest-why"><strong>Why It Matches:</strong> {{ place.why }}</p>
+                    <div class="dest-links">
+                        <a href="{{ place.maps_link }}" target="_blank" class="dest-link-btn">Maps</a>
+                        <a href="{{ place.skyscanner_link }}" target="_blank" class="dest-link-btn">Flights</a>
+                     <a href="{{ place.booking_link }}" target="_blank" class="dest-link-btn">Hotels</a>
+                        <button type="button" class="dest-link-btn calendar-btn" data-place="{{ place.name }}">Calendar</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="section-card">
+     <h2>Best Time To Book</h2>
+        <p class="match-explain">{{ booking_tip }}</p>
+    </div>
+
+    <div class="section-card">
+        <h2>Build A Day By Day Itinerary</h2>
+        <p class="match-explain">Pick one of your matching destinations and we will build a simple day by day plan for you.</p>
+        <div class="calc-grid">
+          <div class="calc-field">
+                <label>Destination</label>
+                <select id="itineraryPlace">
+                    {% for place in places %}
+                        <option value="{{ place.name }}">{{ place.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+           <div class="calc-field">
+                <label>Trip Length (days)</label>
+                <input type="number" id="itineraryDays" value="5" min="1" max="30">
+            </div>
+        </div>
+        <button type="button" class="btn-primary" id="itineraryButton">Generate Itinerary</button>
+     <div class="itinerary-result" id="itineraryResult"></div>
+    </div>
+
+    <div class="section-card">
+        <h2>Budget Calculator</h2>
+        <p class="match-explain">Get a rough cost estimate for your trip based on your travel personality.</p>
+        <div class="calc-grid">
+            <div class="calc-field">
+                <label>Trip Length (days)</label>
+                <input type="number" id="calcDays" value="7" min="1" max="60">
+            </div>
+            <div class="calc-field">
+                <label>Number of People</label>
+                <input type="number" id="calcPeople" value="1" min="1" max="20">
+            </div>
+            <div class="calc-field">
+                <label>Travel Style</label>
+                <select id="calcStyle">
+                    <option value="low">Budget</option>
+                    <option value="mid" selected>Mid Range</option>
+                    <option value="high">Luxury</option>
+                </select>
+            </div>
+            <div class="calc-field">
+                <label>Show Cost In</label>
+              <select id="calcCurrency">
+                    <option value="INR" selected>Rupees (INR)</option>
+                    <option value="USD">US Dollar (USD)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                </select>
+     </div>
+        </div>
+        <button type="button" class="btn-primary" id="calcButton">Calculate Estimate</button>
+        <div class="calc-result" id="calcResult"></div>
+    </div>
+
+    <div class="section-card">
+       <h2>Packing Checklist For {{ primary }}</h2>
+        <ul class="packing-list" id="packingList">
+            {% for item in primary_info.packing %}
+                <li>
+                    <label>
+                        <input type="checkbox">
+                        <span>{{ item }}</span>
+                    </label>
+                </li>
+            {% endfor %}
         </ul>
     </div>
-</section>
 
-<section class="quiz-section" id="quiz">
-    <div class="section-inner narrow">
-
-        <div class="quiz-card">
-
-            <div class="quiz-head">
-                <h2>Travel Personality Quiz</h2>
-                <div class="progress-track">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <p class="progress-label" id="progressLabel"></p>
+  <div class="section-card">
+        <h2>Personality Match</h2>
+        {% for personality_name, percent in sorted_scores %}
+            <div class="row">
+                <span>{{ personality_name }}</span>
+                <span>{{ percent }}%</span>
             </div>
+            <div class="bar">
+                <div class="fill" style="width: {{ percent }}%;"></div>
+            </div>
+        {% endfor %}
+    </div>
 
-            <form action="/result" method="POST" id="quizForm">
+    <div class="section-card">
+        <h2>Full Ranking</h2>
+        <table>
+            <tr>
+             <th>Rank</th>
+                <th>Personality</th>
+                <th>Match</th>
+            </tr>
+            {% for personality_name, percent in sorted_scores %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ personality_name }}</td>
+                <td>{{ percent }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
-                <div class="step active" data-step="0">
-                    <h3>Before we start, what's your name?</h3>
-                    <input type="text" name="name" placeholder="Enter your name" required class="name-input">
-                </div>
-
-                <div class="step" data-step="1">
-                    <h3>1. What vacation sounds best?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q1" value="city" required><span>Big City</span></label>
-                        <label class="option-card"><input type="radio" name="q1" value="adventure"><span>Adventure Trip</span></label>
-                        <label class="option-card"><input type="radio" name="q1" value="nature"><span>Nature Escape</span></label>
-                        <label class="option-card"><input type="radio" name="q1" value="culture"><span>Historical Tour</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="2">
-                    <h3>2. Favorite activity on a trip?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q2" value="shopping" required><span>Shopping</span></label>
-                        <label class="option-card"><input type="radio" name="q2" value="sports"><span>Outdoor Sports</span></label>
-                        <label class="option-card"><input type="radio" name="q2" value="forest"><span>Forest Walk</span></label>
-                        <label class="option-card"><input type="radio" name="q2" value="museum"><span>Museum Visit</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="3">
-                    <h3>3. Which interests you most?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q3" value="technology" required><span>Technology</span></label>
-                        <label class="option-card"><input type="radio" name="q3" value="trekking"><span>Trekking</span></label>
-                        <label class="option-card"><input type="radio" name="q3" value="mountains"><span>Mountains</span></label>
-                        <label class="option-card"><input type="radio" name="q3" value="history"><span>History</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="4">
-                    <h3>4. Ideal weekend choice?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q4" value="nightlife" required><span>City Nightlife</span></label>
-                        <label class="option-card"><input type="radio" name="q4" value="extreme"><span>Extreme Sports</span></label>
-                        <label class="option-card"><input type="radio" name="q4" value="wildlife"><span>Wildlife Safari</span></label>
-                        <label class="option-card"><input type="radio" name="q4" value="architecture"><span>Old Buildings</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="5">
-                    <h3>5. Pick a photo you'd click first</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q5" value="city" required><span>Skyscraper</span></label>
-                        <label class="option-card"><input type="radio" name="q5" value="adventure"><span>Mountain Trail</span></label>
-                        <label class="option-card"><input type="radio" name="q5" value="nature"><span>Waterfall</span></label>
-                        <label class="option-card"><input type="radio" name="q5" value="culture"><span>Temple</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="6">
-                    <h3>6. Preferred way to get around?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q6" value="metro" required><span>Metro / Subway</span></label>
-                        <label class="option-card"><input type="radio" name="q6" value="sports"><span>Bike Ride</span></label>
-                        <label class="option-card"><input type="radio" name="q6" value="forest"><span>Hiking Trail</span></label>
-                        <label class="option-card"><input type="radio" name="q6" value="history"><span>Heritage Tram</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="7">
-                    <h3>7. What sounds most fun?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q7" value="shopping" required><span>Mall Exploration</span></label>
-                        <label class="option-card"><input type="radio" name="q7" value="trekking"><span>Mountain Climb</span></label>
-                        <label class="option-card"><input type="radio" name="q7" value="wildlife"><span>Bird Watching</span></label>
-                        <label class="option-card"><input type="radio" name="q7" value="museum"><span>Museum Tour</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="8">
-                    <h3>8. Pick a destination type</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q8" value="city" required><span>Modern Metropolis</span></label>
-                        <label class="option-card"><input type="radio" name="q8" value="adventure"><span>Adventure Zone</span></label>
-                        <label class="option-card"><input type="radio" name="q8" value="nature"><span>National Park</span></label>
-                        <label class="option-card"><input type="radio" name="q8" value="culture"><span>Ancient City</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="9">
-                    <h3>9. What's your travel budget style?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q9" value="highbudget" required><span>High Budget Comfort</span></label>
-                        <label class="option-card"><input type="radio" name="q9" value="midbudget"><span>Mid Range Balance</span></label>
-                        <label class="option-card"><input type="radio" name="q9" value="lowbudget"><span>Low Budget Backpacking</span></label>
-                        <label class="option-card"><input type="radio" name="q9" value="technology"><span>Spend On Experiences</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="10">
-                    <h3>10. Where would you rather sleep?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q10" value="hotel" required><span>City Hotel</span></label>
-                        <label class="option-card"><input type="radio" name="q10" value="camping"><span>Tent / Campsite</span></label>
-                        <label class="option-card"><input type="radio" name="q10" value="countryside"><span>Countryside Cabin</span></label>
-                        <label class="option-card"><input type="radio" name="q10" value="guesthouse"><span>Local Guesthouse</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="11">
-                    <h3>11. Group trip or solo trip?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q11" value="group" required><span>Big Group Trip</span></label>
-                        <label class="option-card"><input type="radio" name="q11" value="backpack"><span>Small Adventure Crew</span></label>
-                        <label class="option-card"><input type="radio" name="q11" value="solo"><span>Solo Travel</span></label>
-                        <label class="option-card"><input type="radio" name="q11" value="localfood"><span>Travel With Locals</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="12">
-                    <h3>12. City or countryside?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q12" value="skyline" required><span>City Skyline</span></label>
-                        <label class="option-card"><input type="radio" name="q12" value="highrisk"><span>Remote Wilderness</span></label>
-                        <label class="option-card"><input type="radio" name="q12" value="quiet"><span>Quiet Countryside</span></label>
-                        <label class="option-card"><input type="radio" name="q12" value="architecture"><span>Old Town Streets</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="13">
-                    <h3>13. Planned itinerary or spontaneous trip?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q13" value="planned" required><span>Fully Planned</span></label>
-                        <label class="option-card"><input type="radio" name="q13" value="spontaneous"><span>Mostly Spontaneous</span></label>
-                        <label class="option-card"><input type="radio" name="q13" value="nature"><span>Just Go With Nature</span></label>
-                        <label class="option-card"><input type="radio" name="q13" value="history"><span>Plan Around Landmarks</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="14">
-                    <h3>14. How much adventure can you handle?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q14" value="extreme" required><span>Bring On Extreme Sports</span></label>
-                        <label class="option-card"><input type="radio" name="q14" value="trekking"><span>Long Treks Are Fine</span></label>
-                        <label class="option-card"><input type="radio" name="q14" value="wildlife"><span>Calm Wildlife Walks</span></label>
-                        <label class="option-card"><input type="radio" name="q14" value="museum"><span>I'd Rather Stay Safe</span></label>
-                    </div>
-                </div>
-
-                <div class="step" data-step="15">
-                    <h3>15. How interested are you in history?</h3>
-                    <div class="option-grid">
-                        <label class="option-card"><input type="radio" name="q15" value="history" required><span>Very Interested</span></label>
-                        <label class="option-card"><input type="radio" name="q15" value="culture"><span>Somewhat Interested</span></label>
-                        <label class="option-card"><input type="radio" name="q15" value="technology"><span>Prefer Modern Things</span></label>
-                        <label class="option-card"><input type="radio" name="q15" value="adventure"><span>Not Really</span></label>
-                    </div>
-                </div>
-
-                <div class="quiz-nav">
-                    <button type="button" class="btn-secondary" id="prevBtn">Back</button>
-                    <button type="button" class="btn-primary" id="nextBtn">Next</button>
-                    <button type="submit" class="btn-primary" id="submitBtn">Analyze My Personality</button>
-                </div>
-
-            </form>
-
+    <div class="section-card">
+        <h2>Travel Tips For {{ primary }}</h2>
+        <div class="tips-grid">
+            {% for tip in primary_info.tips %}
+                <div class="tip-card">{{ tip }}</div>
+            {% endfor %}
         </div>
-
     </div>
-</section>
 
-<section class="cta">
-    <div class="section-inner">
-        <h2>Ready to find your travel style?</h2>
-        <p>It only takes a couple of minutes and the results might surprise you.</p>
-        <a href="#quiz" class="btn-primary">Take The Quiz</a>
+    <div class="section-card">
+        <h2>Fun Facts</h2>
+        <ul class="fun-facts-list">
+            {% for fact in primary_info.fun_facts %}
+                <li>{{ fact }}</li>
+            {% endfor %}
+        </ul>
     </div>
-</section>
+
+    <div class="section-card">
+        <h2>Share Or Save Your Results</h2>
+        <div class="share-buttons">
+            <a href="{{ whatsapp_link }}" target="_blank" class="btn-secondary">Share On WhatsApp</a>
+            <a href="{{ mailto_link }}" class="btn-secondary">Email My Results</a>
+            <button type="button" class="btn-secondary" id="downloadButton">Download Results (.txt)</button>
+        </div>
+    </div>
+
+    <a href="/" class="btn-primary retake-btn">Analyze Again</a>
+
+</div>
 
 <footer class="footer">
-    <p>Travel Personality Analyzer &mdash; Built with Love for Off-Track HackClub YSWS</p>
+    <p>Travel Personality Analyzer &mdash; built as a learning project</p>
 </footer>
 
-<script src="{{ url_for('static', filename='quiz.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+    const chartLabels = {{ chart_labels > tojson }};
+    const chartValues = {{ chart_values > tojson }};
+    const dailyCostLow = {{ primary_info.daily_cost_low }};
+    const dailyCostMid = {{ primary_info.daily_cost_mid }};
+    const dailyCostHigh = {{ primary_info.daily_cost_high }};
+    const travellerName = {{ name > tojson }};
+    const primaryPersonality = {{ primary > tojson }};
+    const secondaryPersonality = {{ secondary > tojson }};
+    const matchScore = {{ match_score }};
+    const confidenceLabel = {{ confidence_label > tojson }};
+    const usdRate = {{ usd_rate }};
+    const eurRate = {{ eur_rate }};
+    const primaryPersonalityName = {{ primary > tojson }};
+</script>
+<script src="{{ url_for('static', filename='results.js') }}"></script>
 
 </body>
 </html>
