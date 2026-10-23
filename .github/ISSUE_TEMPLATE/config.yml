@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security report
+    url: https://github.com/ryaneditraj/Personality-Analyzer/security/policy
+    about: Report a vulnerability by email. Please do not file it as a public issue.

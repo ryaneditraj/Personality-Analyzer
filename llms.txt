@@ -1,0 +1,13 @@
+# Travel Personality Analyzer
+
+> Free travel personality quiz by Ryan Editraj. Fifteen questions match you with a travel style, destinations, a budget estimate, a packing list, and a day-by-day itinerary. No account, no database, and no API key.
+
+The quiz scores four travel styles: Urban Explorer, Adventure Seeker, Nature Lover, and Cultural Explorer. Each matching answer adds two points. The highest share is the primary personality and the next share is the secondary personality. Answers are scored during the request and are not stored.
+
+Daily costs are approximate Indian rupee figures for that travel style. US dollar and euro totals use a fixed rate and are planning sketches, not quotes. Maps, flights, hotels, calendar, WhatsApp, and email are ordinary links.
+
+The running app also serves this page at /llms.txt. Set SITE_URL when you deploy so that copy uses the public address.
+
+- [Repository](https://github.com/ryaneditraj/Personality-Analyzer): source code, license, and setup
+- [Author](https://github.com/ryaneditraj): Ryan Editraj on GitHub
+- [Instagram](https://instagram.com/ryaneditraj): Ryan Editraj on Instagram

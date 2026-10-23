@@ -1,0 +1,11 @@
+# Served as-is from the repository. The running app builds its own robots.txt
+# from SITE_URL, or from the address you opened, and points the sitemap there.
+
+User-agent: *
+Allow: /
+
+# Personalized results are created with POST and are not public pages.
+Disallow: /result
+Disallow: /build-itinerary
+
+Sitemap: https://github.com/ryaneditraj/Personality-Analyzer

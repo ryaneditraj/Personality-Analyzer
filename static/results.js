@@ -1,3 +1,18 @@
+const resultData = JSON.parse(document.getElementById("result-data").textContent);
+const chartLabels = resultData.chartLabels;
+const chartValues = resultData.chartValues;
+const dailyCostLow = resultData.dailyCostLow;
+const dailyCostMid = resultData.dailyCostMid;
+const dailyCostHigh = resultData.dailyCostHigh;
+const travellerName = resultData.travellerName;
+const primaryPersonality = resultData.primaryPersonality;
+const secondaryPersonality = resultData.secondaryPersonality;
+const matchScore = resultData.matchScore;
+const confidenceLabel = resultData.confidenceLabel;
+const usdRate = resultData.usdRate;
+const eurRate = resultData.eurRate;
+const primaryPersonalityName = resultData.primaryPersonalityName;
+
 const radarCtx = document.getElementById("radarChart").getContext("2d");
 new Chart(radarCtx, {
     type: "radar",
@@ -53,8 +68,20 @@ const calcButton = document.getElementById("calcButton");
 const calcResult = document.getElementById("calcResult");
 
 calcButton.addEventListener("click", function () {
-    const days = parseInt(document.getElementById("calcDays").value);
-    const people = parseInt(document.getElementById("calcPeople").value);
+    let days = parseInt(document.getElementById("calcDays").value, 10);
+    let people = parseInt(document.getElementById("calcPeople").value, 10);
+    if (!Number.isFinite(days) || days < 1) {
+        days = 7;
+    }
+    if (days > 60) {
+        days = 60;
+    }
+    if (!Number.isFinite(people) || people < 1) {
+        people = 1;
+    }
+    if (people > 20) {
+        people = 20;
+    }
     const style = document.getElementById("calcStyle").value;
     const currency = document.getElementById("calcCurrency").value;
 
@@ -76,7 +103,7 @@ calcButton.addEventListener("click", function () {
     } else if (currency === "EUR") {
         total = total * eurRate;
         perPerson = perPerson * eurRate;
-        symbol = "é ";
+        symbol = "€ ";
     }
 
     total = Math.round(total);
@@ -98,7 +125,13 @@ function formatDateForCalendar(date) {
 const calendarButtons = document.querySelectorAll(".calendar-btn");
 calendarButtons.forEach(function (button) {  button.addEventListener("click", function () {
         const placeName = button.getAttribute("data-place");
-        const days = parseInt(document.getElementById("calcDays").value) >> 7;
+        let days = parseInt(document.getElementById("calcDays").value, 10);
+        if (!Number.isFinite(days) || days < 1) {
+            days = 7;
+        }
+        if (days > 60) {
+            days = 60;
+        }
 
         const startDate = new Date();
        startDate.setDate(startDate.getDate() + 14);

@@ -1,6 +1,32 @@
+import os
+import re
+from html import escape
+from urllib.parse import quote, quote_plus
+
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+# Keep form posts small. This quiz never needs a large body.
+app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
+app.config["MAX_FORM_MEMORY_SIZE"] = 64 * 1024
+app.config["MAX_FORM_PARTS"] = 40
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
+# Chart.js is loaded from a pinned CDN URL. The hash matches chart.umd.min.js 4.4.1.
+CONTENT_SECURITY_POLICY = (
+    "default-src 'self'; "
+    "base-uri 'self'; "
+    "form-action 'self'; "
+    "frame-ancestors 'none'; "
+    "object-src 'none'; "
+    "img-src 'self' data:; "
+    "font-src 'self'; "
+    "style-src 'self' 'unsafe-inline'; "
+    "script-src 'self' https://cdnjs.cloudflare.com; "
+    "script-src-attr 'none'; "
+    "connect-src 'self'"
+)
 
 answer_map = {
     "city": "Urban Explorer",
@@ -521,30 +547,66 @@ def calculate_results(form_data):
     return result
 
 
+def clean_display_name(raw_name):
+    if not raw_name:
+        return "Traveller"
+    name = " ".join(str(raw_name).split())
+    name = "".join(character for character in name if character.isprintable())
+    name = name[:80].strip()
+    return name or "Traveller"
+
+
+def public_base_url():
+    configured = os.environ.get("SITE_URL", "").strip().rstrip("/")
+    if configured:
+        return configured
+    return request.host_url.rstrip("/")
+
+
+def debug_enabled():
+    value = os.environ.get("FLASK_DEBUG", "0").strip().lower()
+    return value in {"1", "true", "yes", "on"}
+
+
+def load_local_env():
+    """Load a local .env file without overriding variables already set in the shell."""
+    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if not os.path.isfile(env_path):
+        return
+    with open(env_path, encoding="utf-8") as env_file:
+        for line in env_file:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
 def build_maps_link(place_name):
-    query = place_name.replace(" ", "+").replace(",", "%2C")
+    query = quote_plus(place_name)
     return "https://www.google.com/maps/search/?api=1&query=" + query
 
 
 def build_skyscanner_link(place_name):
-    query = place_name.split(",")[0].strip().replace(" ", "-").lower()
-    return "https://www.skyscanner.net/transport/flights-to/" + query + "/"
+    city = place_name.split(",")[0].strip().lower()
+    slug = re.sub(r"[^a-z0-9]+", "-", city).strip("-")
+    return "https://www.skyscanner.net/transport/flights-to/" + slug + "/"
 
 
 def build_booking_link(place_name):
-    query = place_name.replace(" ", "+").replace(",", "")
+    query = quote_plus(place_name)
     return "https://www.booking.com/searchresults.html?ss=" + query
 
 
 def build_whatsapp_link(text):
-    message = text.replace(" ", "%20").replace("\n", "%0A")
-    return "https://wa.me/?text=" + message
+    return "https://wa.me/?text=" + quote(text)
 
 
 def build_mailto_link(subject, body):
-    subject_part = subject.replace(" ", "%20")
-    body_part = body.replace(" ", "%20").replace("\n", "%0A")
-    return "mailto:?subject=" + subject_part + "&body=" + body_part
+    return "mailto:?subject=" + quote(subject) + "&body=" + quote(body)
 
 
 def build_itinerary(personality, place_name, days):
@@ -566,16 +628,170 @@ def build_itinerary(personality, place_name, days):
     return days_plan
 
 
+def build_home_json_ld():
+    base = public_base_url()
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebApplication",
+                "name": "Travel Personality Analyzer",
+                "applicationCategory": "TravelApplication",
+                "operatingSystem": "Any",
+                "url": base + "/",
+                "image": base + "/static/og-cover.png",
+                "description": (
+                    "Free travel personality quiz that matches how you like to travel "
+                    "with a travel style, destinations, a budget estimate, a packing list, "
+                    "and a day-by-day itinerary."
+                ),
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD",
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "Ryan Editraj",
+                    "url": "https://github.com/ryaneditraj",
+                    "sameAs": [
+                        "https://github.com/ryaneditraj",
+                        "https://instagram.com/ryaneditraj",
+                    ],
+                },
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is the Travel Personality Analyzer?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": (
+                                "It is a free travel personality quiz. Fifteen questions score "
+                                "you across four travel styles and the result page suggests "
+                                "destinations, a budget, a packing list, and a simple itinerary."
+                            ),
+                        },
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How does the travel personality quiz work?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": (
+                                "Each answer adds two points to one travel style. The style with "
+                                "the highest share of points is your primary personality, and the "
+                                "next one is your secondary style."
+                            ),
+                        },
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does Travel Personality Analyzer need an API key?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": (
+                                "No. Maps, flights, hotels, calendar, WhatsApp, and email open "
+                                "as normal links. There is no account and no API key."
+                            ),
+                        },
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does the quiz save my answers?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": (
+                                "No. Answers are scored during the request and are not written "
+                                "to a database."
+                            ),
+                        },
+                    },
+                ],
+            },
+        ],
+    }
+
+
+@app.context_processor
+def inject_site_url():
+    return {"site_url": public_base_url()}
+
+
+@app.after_request
+def set_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    response.headers["Content-Security-Policy"] = CONTENT_SECURITY_POLICY
+    if request.path in {"/result", "/build-itinerary"}:
+        response.headers["Cache-Control"] = "no-store"
+    return response
+
+
 @app.route("/")
 def home():
-    return render_template("index.html", total_questions=total_questions)
+    return render_template(
+        "index.html",
+        total_questions=total_questions,
+        home_json_ld=build_home_json_ld(),
+    )
+
+
+@app.route("/robots.txt")
+def robots_txt():
+    base = public_base_url()
+    body = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /result\n"
+        "Disallow: /build-itinerary\n"
+        "\n"
+        f"Sitemap: {base}/sitemap.xml\n"
+    )
+    return app.response_class(body, mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    base = public_base_url()
+    body = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        "  <url>\n"
+        f"    <loc>{escape(base)}/</loc>\n"
+        "    <changefreq>weekly</changefreq>\n"
+        "    <priority>1.0</priority>\n"
+        "  </url>\n"
+        "</urlset>\n"
+    )
+    return app.response_class(body, mimetype="application/xml")
+
+
+@app.route("/llms.txt")
+def llms_txt():
+    base = public_base_url()
+    body = (
+        "# Travel Personality Analyzer\n\n"
+        "> Free travel personality quiz by Ryan Editraj. Fifteen questions match you "
+        "with a travel style, destinations, a budget estimate, a packing list, and a "
+        "day-by-day itinerary. No account, no database, and no API key.\n\n"
+        "Answers are scored in the request and are not stored. Daily costs are "
+        "approximate Indian rupee figures. US dollar and euro amounts use a fixed rate.\n\n"
+        f"- [Home]({base}/): take the travel personality quiz\n"
+        "- [Source](https://github.com/ryaneditraj/Personality-Analyzer): project repository\n"
+        "- [Author](https://github.com/ryaneditraj): Ryan Editraj on GitHub\n"
+        "- [Instagram](https://instagram.com/ryaneditraj): Ryan Editraj on Instagram\n"
+    )
+    return app.response_class(body, mimetype="text/plain")
 
 
 @app.route("/result", methods=["POST"])
 def result():
-    name = request.form.get("name")
-    if not name:
-        name = "Traveller"
+    name = clean_display_name(request.form.get("name"))
 
     results = calculate_results(request.form)
 
@@ -608,6 +824,22 @@ def result():
 
     booking_tip = best_time_to_book[primary]
 
+    result_payload = {
+        "chartLabels": chart_labels,
+        "chartValues": chart_values,
+        "dailyCostLow": primary_info["daily_cost_low"],
+        "dailyCostMid": primary_info["daily_cost_mid"],
+        "dailyCostHigh": primary_info["daily_cost_high"],
+        "travellerName": name,
+        "primaryPersonality": primary,
+        "secondaryPersonality": secondary,
+        "matchScore": results["match_score"],
+        "confidenceLabel": results["confidence_label"],
+        "usdRate": currency_rates["USD"],
+        "eurRate": currency_rates["EUR"],
+        "primaryPersonalityName": primary,
+    }
+
     return render_template(
         "result.html",
         name=name,
@@ -626,37 +858,50 @@ def result():
         mailto_link=mailto_link,
         booking_tip=booking_tip,
         usd_rate=currency_rates["USD"],
-        eur_rate=currency_rates["EUR"]
+        eur_rate=currency_rates["EUR"],
+        result_payload=result_payload,
     )
 
 
 @app.route("/build-itinerary", methods=["POST"])
 def build_itinerary_route():
-    personality = request.form.get("personality")
-    place_name = request.form.get("place_name")  
-    days = request.form.get("days")
+    personality = request.form.get("personality", "")
+    place_name = " ".join(request.form.get("place_name", "").split())
+    days_raw = request.form.get("days", "")
 
-    if not days:
+    if personality not in itinerary_templates:
+        return "<p>Could not build an itinerary for that travel personality.</p>", 400
+
+    if not place_name or len(place_name) > 80:
+        return "<p>Choose a destination before generating an itinerary.</p>", 400
+
+    if not days_raw:
         days = 5
-    days = int(days)
+    else:
+        try:
+            days = int(days_raw)
+        except ValueError:
+            return "<p>Trip length must be a whole number of days.</p>", 400
+
     if days > 30:
         days = 30
     if days < 1:
         days = 1
 
     days_plan = build_itinerary(personality, place_name, days)
+    safe_place = escape(place_name)
 
     html_parts = []
-    html_parts.append("<h3>" + days_to_text(len(days_plan)) + " Itinerary For " + place_name + "</h3>")
+    html_parts.append("<h3>" + days_to_text(len(days_plan)) + " Itinerary For " + safe_place + "</h3>")
     for day in days_plan:
         html_parts.append("<div class='itinerary-day'>")
         html_parts.append("<h4>Day " + str(day["day_number"]) + "</h4>")
-        html_parts.append("<p><strong>Morning:</strong> " + day["morning"] + "</p>")
-        html_parts.append("<p><strong>Afternoon:</strong> " + day["afternoon"] + "</p>")
-        html_parts.append("<p><strong>Evening:</strong> " + day["evening"] + "</p>")
+        html_parts.append("<p><strong>Morning:</strong> " + escape(day["morning"]) + "</p>")
+        html_parts.append("<p><strong>Afternoon:</strong> " + escape(day["afternoon"]) + "</p>")
+        html_parts.append("<p><strong>Evening:</strong> " + escape(day["evening"]) + "</p>")
         html_parts.append("</div>")
 
-    return "".join(html_parts)
+    return app.response_class("".join(html_parts), mimetype="text/html")
 
 
 def days_to_text(days):
@@ -666,4 +911,11 @@ def days_to_text(days):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    load_local_env()
+    try:
+        port = int(os.environ.get("FLASK_PORT", os.environ.get("PORT", "5001")))
+    except ValueError:
+        raise SystemExit("FLASK_PORT must be an integer.")
+    host = os.environ.get("FLASK_HOST", "127.0.0.1")
+    # The debugger stays off unless FLASK_DEBUG is set. Do not expose debug mode publicly.
+    app.run(debug=debug_enabled(), host=host, port=port)

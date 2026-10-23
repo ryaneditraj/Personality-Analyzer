@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest a destination, question, or travel-planning feature
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is missing?
+      description: Which part of planning a trip is awkward today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should the quiz do instead?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else?
+      description: Links, sample destinations, or a screenshot help.
