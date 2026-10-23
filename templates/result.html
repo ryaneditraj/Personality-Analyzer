@@ -3,7 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Travel Results</title>
+    <title>Your Travel Personality Results | Travel Personality Analyzer</title>
+    <meta name="description" content="Personal travel personality result with destination matches, a budget estimate, a packing list, and a day-by-day itinerary.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Travel Personality Analyzer">
+    <meta property="og:title" content="Your Travel Personality Results">
+    <meta property="og:description" content="A personal travel style result from the free Travel Personality Analyzer quiz.">
+    <meta property="og:url" content="{{ site_url }}/">
+    <meta property="og:image" content="{{ site_url }}/static/og-cover.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Your Travel Personality Results">
+    <meta name="twitter:description" content="A personal travel style result from the free Travel Personality Analyzer quiz.">
+    <meta name="twitter:image" content="{{ site_url }}/static/og-cover.png">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -163,9 +177,9 @@
                     </div>
                     <p class="dest-why"><strong>Why It Matches:</strong> {{ place.why }}</p>
                     <div class="dest-links">
-                        <a href="{{ place.maps_link }}" target="_blank" class="dest-link-btn">Maps</a>
-                        <a href="{{ place.skyscanner_link }}" target="_blank" class="dest-link-btn">Flights</a>
-                        <a href="{{ place.booking_link }}" target="_blank" class="dest-link-btn">Hotels</a>
+                        <a href="{{ place.maps_link }}" target="_blank" rel="noopener noreferrer" class="dest-link-btn">Maps</a>
+                        <a href="{{ place.skyscanner_link }}" target="_blank" rel="noopener noreferrer" class="dest-link-btn">Flights</a>
+                        <a href="{{ place.booking_link }}" target="_blank" rel="noopener noreferrer" class="dest-link-btn">Hotels</a>
                         <button type="button" class="dest-link-btn calendar-btn" data-place="{{ place.name }}">Calendar</button>
                     </div>
                 </div>
@@ -298,7 +312,7 @@
     <div class="section-card">
         <h2>Share Or Save Your Results</h2>
         <div class="share-buttons">
-            <a href="{{ whatsapp_link }}" target="_blank" class="btn-secondary">Share On WhatsApp</a>
+            <a href="{{ whatsapp_link }}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Share On WhatsApp</a>
             <a href="{{ mailto_link }}" class="btn-secondary">Email My Results</a>
          <button type="button" class="btn-secondary" id="downloadButton">Download Results (.txt)</button>
         </div>
@@ -309,25 +323,11 @@
 </div>
 
 <footer class="footer">
-    <p>Travel Personality Analyzer &mdash; built as a learning project</p>
+    <p>Travel Personality Analyzer by <a href="https://github.com/ryaneditraj">Ryan Editraj</a></p>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script>
-    const chartLabels = {{ chart_labels > tojson }};
- const chartValues = {{ chart_values > tojson }};
-   const dailyCostLow = {{ primary_info.daily_cost_low }};
-    const dailyCostMid = {{ primary_info.daily_cost_mid }};
-    const dailyCostHigh = {{ primary_info.daily_cost_high }};
-    const travellerName = {{ name > tojson }};
-    const primaryPersonality = {{ primary > tojson }};
-    const secondaryPersonality = {{ secondary > tojson }};
-    const matchScore = {{ match_score }};
-    const confidenceLabel = {{ confidence_label > tojson }};
-    const usdRate = {{ usd_rate }};
-    const eurRate = {{ eur_rate }};
-    const primaryPersonalityName = {{ primary > tojson }};
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha384-bs/nf9FbdNouRbMiFcrcZfLXYPKiPaGVGplVbv7dLGECccEXDW+S3zjqSKR5ZEaD" crossorigin="anonymous"></script>
+<script id="result-data" type="application/json">{{ result_payload | tojson }}</script>
 <script src="{{ url_for('static', filename='results.js') }}"></script>
 
 </body>

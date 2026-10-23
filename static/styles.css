@@ -148,7 +148,7 @@ a {
 .feature-card {
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 10x;
+    border-radius: 10px;
     padding: 20px;
 }
 
@@ -159,7 +159,7 @@ a {
 }
 
 .feature-card p {
-    font-size: 0.9rm;
+    font-size: 0.9rem;
     color: #555;
     margin: 0;
 }
@@ -270,7 +270,8 @@ a {
     grid-template-columns: repeat(2, 1fr);  gap: 12px;
 }
 
-.option-card    display: flex;
+.option-card {
+    display: flex;
     align-items: center;
     background: #f8f9fb;
     border: 2px solid #e2e8f0;
@@ -326,6 +327,32 @@ a {
     padding: 25px 20px;
     color: #888;
     font-size: 0.85rem;
+}
+
+.footer a {
+    color: #4f46e5;
+    font-weight: bold;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+}
+
+.faq-item h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.faq-item p {
+    margin: 0;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .results-page {
@@ -449,7 +476,7 @@ a {
 
 .insight-box h4 {
     font-size: 0.75rem;
-    text-transform: uppercae;
+    text-transform: uppercase;
     color: #06b6d4;
     margin-bottom: 6px;
 }
